@@ -6,7 +6,21 @@ const jwt = require('jsonwebtoken');
 
 
 router.post('/', async (req, res)=>{
-    res.status(200).json({auth: true});
+    const result = await User.findAll({
+        where:{
+            userName: req.body.userName,
+            password: sha256("BBK879@%$"+req.body.password+"@#!TI-SENAC..$$7ARA")
+        }
+
+    });
+
+    if(!result.length){
+        res.status(401).json({auth: false});
+    }
+
+    const token = jwt.sign({id: result.id}, '@tiARA', {expiresIn: 600});
+    res.status(200).json({auth: true, token: token});
+    
 });
 
 module.exports = router;
