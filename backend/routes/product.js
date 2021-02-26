@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { Product } = require('../models');
+const checkJWT = require('../middlewares/auth');
 
 router.get('/', checkJWT, async (req, res) => {
     const products = await Product.findAll();
