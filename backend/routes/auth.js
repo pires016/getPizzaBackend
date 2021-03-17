@@ -11,16 +11,14 @@ router.post('/', async (req, res)=>{
             userName: req.body.userName,
             password: sha256("BBK879@%$"+req.body.password+"@#!TI-SENAC..$$7ARA")
         }
-
     });
-
+    
     if(!result.length){
         res.status(401).json({auth: false});
     }
 
     const token = jwt.sign({id: result.id}, '@tiARA', {expiresIn: '999 years'});
-    res.status(200).json({auth: true, token: token});
-    
+    res.status(200).json({auth: true, token: token, type: result[0].type });
 });
 
 module.exports = router;
